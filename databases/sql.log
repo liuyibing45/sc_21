@@ -53,3 +53,48 @@ CREATE TABLE "auth_cas"(
     "renew" CHAR(1)
 );
 success!
+timestamp: 2017-02-08T17:11:35.818000
+CREATE TABLE "basic"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "student_ID" CHAR(512),
+    "name" CHAR(512),
+    "gender" CHAR(512),
+    "grade" CHAR(512),
+    "age" CHAR(512),
+    "nation" CHAR(512),
+    "company1" CHAR(512),
+    "company2" CHAR(512),
+    "company3" CHAR(512),
+    "initial_date" DATE
+);
+success!
+timestamp: 2017-02-08T17:12:25.194000
+CREATE TABLE "account"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "company" CHAR(512),
+    "original_fund" CHAR(512),
+    "flow" CHAR(512),
+    "category" CHAR(512),
+    "amount" CHAR(512),
+    "trade_time" TIME,
+    "balance" CHAR(512)
+);
+success!
+timestamp: 2017-02-08T17:12:25.281000
+CREATE TABLE "company"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "name" CHAR(512),
+    "category" CHAR(512),
+    "legal_person" CHAR(512),
+    "status" CHAR(512)
+);
+success!
+timestamp: 2017-02-08T17:12:25.362000
+CREATE TABLE "goods"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "company" CHAR(512),
+    "name" CHAR(512),
+    "price" CHAR(512),
+    "amount" CHAR(512)
+);
+success!

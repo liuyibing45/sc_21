@@ -266,6 +266,7 @@
 'User %(id)s Registered': '用户 %(id)s 已注册',
 'User ID': '用户编号',
 'Users': 'Users',
+'Value not allowed': '无效内容',
 'Verify Password': '验证密码',
 'Videos': '视频',
 'View': '查看',

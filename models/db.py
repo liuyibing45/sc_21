@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from test.test_support import requires
+from gluon.validators import IS_IN_SET
 
 # -------------------------------------------------------------------------
 # This scaffolding model makes your app work on Google App Engine too
@@ -90,7 +92,14 @@ plugins = PluginManager()
 # -------------------------------------------------------------------------
 # create all tables needed by auth if not custom tables
 # -------------------------------------------------------------------------
+
+# auth.settings.extra_fields['auth_user'] = (
+#     [Field('user_type',label="用户类别",requires=IS_IN_SET(['省级','市州', '县区'],multiple=False))])
 auth.define_tables(username=False, signature=False)
+# db.auth_user.last_name.requires=None
+db.auth_user.first_name.label="姓名"
+# db.auth_user.last_name.label="个人姓名"
+db.auth_user.last_name.readable=db.auth_user.last_name.writable=False
 
 # -------------------------------------------------------------------------
 # configure email
@@ -109,10 +118,55 @@ auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
 
+
+
+# -------------------------------------------------------------------------
+# define_parameters
+minzu_list=(
+"汉族","藏族","回族","蒙古族","撒拉族","土族","哈萨克族","壮族","阿昌族","白族","保安族","布朗族","布依族","朝鲜族","达斡尔族","傣族","德昂族","侗族","东乡族",
+"独龙族","鄂伦春族","俄罗斯族","鄂温克族","高山族","仡佬族","哈尼族","赫哲族",
+"基诺族","京族","景颇族","柯尔克孜族","拉祜族","黎族","傈僳族","珞巴族","满族","毛南族","门巴族",
+"苗族","仫佬族","纳西族","怒族","普米族","羌族","畲族","水族","塔吉克族","塔塔尔族",
+"土家族","佤族","维吾尔族","乌兹别克族","锡伯族","瑶族","彝族","裕固族"
+              )
+#
+
 # -------------------------------------------------------------------------
 # Define your tables below (or better in another model file) for example
 #
-# >>> db.define_table('mytable', Field('myfield', 'string'))
+db.define_table('basic', 
+                Field('student_ID',type='string',label='学号'),
+                Field('name',type='string',label='姓名'),
+                Field('gender',type='string',label='性别',requires=IS_IN_SET(['男','女'])),
+                Field('grade',type='string',label='年级',requires=IS_IN_SET(['初中七年级','初中八年级','初中九年级','高中一年级','高中二年级','高中三年级'])),
+                Field('age',type='string',label='年龄'),
+                Field('nation', type='string',label='民族',default='汉族',requires=IS_IN_SET(minzu_list)),
+                Field('company1', type='string',default='无',label='公司1',writable=False),
+                Field('company2', type='string',default='无',label='公司2',writable=False),
+                Field('company3', type='string',default='无',label='公司3',writable=False),
+                Field('initial_date', type='date',label='录入日期',default=request.now.date,writable=False),
+                )
+db.define_table('account', 
+                Field('company',type='string',label='公司名称'),
+                Field('original_fund', type='string',label='原始资金',writable=False),
+                Field('flow', type='string',label='交易名称',requires=IS_IN_SET(['工资开支','购买货物','卖货收入'])),
+                Field('category', type='string',label='交易类型',requires=IS_IN_SET(['支出','收入'])),
+                Field('amount', type='string',label='数额'),
+                Field('trade_time', type='time',label='交易日期',default=request.now,writable=False),
+                Field('balance', type='string',label='余额',writable=False),
+                )
+db.define_table('company', 
+                Field('name',type='string',label='公司名称'),
+                Field('category', type='string',label='注册类型',writable=False),
+                Field('legal_person', type='string',label='法人'),
+                Field('status', type='string',label='审核状态',default='待审核',requires=IS_IN_SET(['已通过','未通过','待审核']),writable=False),
+                )
+db.define_table('goods', 
+                Field('company',type='string',label='所属公司'),
+                Field('name',type='string',label='货物名称'),
+                Field('price', type='string',label='价格'),
+                Field('amount', type='string',label='数量'),
+                )
 #
 # Fields can be 'string','text','password','integer','double','boolean'
 #       'date','time','datetime','blob','upload', 'reference TABLENAME'
